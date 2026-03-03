@@ -1,0 +1,320 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Swagger api documentation for CurrencyFair enterprise API",
+        "version": "1.0.0",
+        "title": "CurrencyFair enterprise API"
+    },
+    "host": "api-test.staging.currencyfair.com",
+    "basePath": "/enterprise",
+    "tags": [
+        {
+            "name": "Customer API",
+            "description": "APIs for managing customers"
+        }
+    ],
+    "schemes": [
+        "https"
+    ],
+    "paths": {
+        "/customers": {
+            "get": {
+                "tags": [
+                    "Customer API"
+                ],
+                "summary": "List customers",
+                "description": "Query all child customers",
+                "operationId": "queryAllChildCustomerUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/QueryCustomerListResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": [
+                            "global"
+                        ]
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Customer API"
+                ],
+                "summary": "Create customer",
+                "description": "Create a new child customer under the current customer",
+                "operationId": "createCustomerUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "request",
+                        "description": "request",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CustomerCreationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/CustomerCreationResponse"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": [
+                            "global"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/customers/{customer_code}": {
+            "get": {
+                "tags": [
+                    "Customer API"
+                ],
+                "summary": "Query customer detail",
+                "description": "Query customer detail by customer code",
+                "operationId": "queryCustomerUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "customer_code",
+                        "in": "path",
+                        "description": "customer_code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/QueryCustomerResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": [
+                            "global"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    "securityDefinitions": {
+        "Bearer Authentication": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    },
+    "definitions": {
+        "CustomerCreationRequest": {
+            "type": "object",
+            "properties": {
+                "acceptedTermsAndConditions": {
+                    "type": "boolean"
+                },
+                "addressLine1": {
+                    "type": "string"
+                },
+                "addressLine2": {
+                    "type": "string"
+                },
+                "addressLine3": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                },
+                "countryId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "dateOfBirth": {
+                    "type": "string",
+                    "format": "date"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "nationalities": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phoneCountryId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "phoneNumber": {
+                    "type": "string"
+                },
+                "postCode": {
+                    "type": "string"
+                },
+                "preferredCurrencies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "registrationCountryId": {
+                    "type": "number"
+                },
+                "sal": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "usTaxIdNumber": {
+                    "type": "string"
+                }
+            },
+            "title": "CustomerCreationRequest"
+        },
+        "CustomerCreationResponse": {
+            "type": "object",
+            "properties": {
+                "customerId": {
+                    "type": "string"
+                }
+            },
+            "title": "CustomerCreationResponse"
+        },
+        "QueryCustomerListResponse": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "customerCode": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            },
+            "title": "QueryCustomerListResponse"
+        },
+        "QueryCustomerResponse": {
+            "type": "object",
+            "properties": {
+                "amlFlags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "company": {
+                    "type": "boolean"
+                },
+                "countryName": {
+                    "type": "string"
+                },
+                "created": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "customerCode": {
+                    "type": "string"
+                },
+                "displayUserName": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "pendingDepositsCount": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "sal": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "subUser": {
+                    "type": "boolean"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "timesTraded": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "QueryCustomerResponse"
+        }
+    }
+}
