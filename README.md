@@ -1,5 +1,7 @@
 # API Integration Guide
 
+[Swagger](https://zol777.github.io/Mercury-Enterprise-Swagger/)
+
 ## Overview
 
 This document provides comprehensive guidelines for integrating with our API. It covers authentication using JWT (JSON Web Tokens), webhook implementation, and signature verification mechanisms to ensure secure communication between your application and our platform.
