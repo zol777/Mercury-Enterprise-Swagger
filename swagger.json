@@ -17,7 +17,7 @@
         "https"
     ],
     "paths": {
-        "/customers": {
+        "/v1/customers": {
             "get": {
                 "tags": [
                     "Customer API"
@@ -109,7 +109,7 @@
                 ]
             }
         },
-        "/customers/{customer_code}": {
+        "/v1/customers/{customer_code}": {
             "get": {
                 "tags": [
                     "Customer API"
