@@ -12,7 +12,7 @@
   <script>
     window.onload = () => {
       window.ui = SwaggerUIBundle({
-        url: "swagger.json", // Path to your json file in the same repo
+        url: "swagger.json?t=" + new Date().getTime(), // 1. Path to your json file in the same repo 2. add time for make it not cached in browser
         dom_id: '#swagger-ui',
       });
     };
