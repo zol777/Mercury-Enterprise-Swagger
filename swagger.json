@@ -9,8 +9,8 @@
     "basePath": "/enterprise",
     "tags": [
         {
-            "name": "customer-controller",
-            "description": "Customer Controller"
+            "name": "customer-v-1-controller",
+            "description": "Customer V 1 Controller"
         }
     ],
     "schemes": [
@@ -20,7 +20,7 @@
         "/v1/customers": {
             "post": {
                 "tags": [
-                    "customer-controller"
+                    "customer-v-1-controller"
                 ],
                 "summary": "Create customer",
                 "description": "Create a new child customer under the current customer",
@@ -70,6 +70,92 @@
                     }
                 ]
             }
+        },
+        "/v1/customers/child-customers": {
+            "get": {
+                "tags": [
+                    "customer-v-1-controller"
+                ],
+                "summary": "List customers",
+                "description": "Query all child customers",
+                "operationId": "queryAllChildCustomerUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/ChildCustomerResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": [
+                            "global"
+                        ]
+                    }
+                ]
+            }
+        },
+        "/v1/customers/{customer_code}": {
+            "get": {
+                "tags": [
+                    "customer-v-1-controller"
+                ],
+                "summary": "Query customer detail",
+                "description": "Query customer detail by customer code",
+                "operationId": "queryCustomerUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "customer_code",
+                        "in": "path",
+                        "description": "customer_code",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiUserQueryResponse"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                },
+                "security": [
+                    {
+                        "Bearer Authentication": [
+                            "global"
+                        ]
+                    }
+                ]
+            }
         }
     },
     "securityDefinitions": {
@@ -83,10 +169,10 @@
         "ApiUserCreateRequest": {
             "type": "object",
             "properties": {
-                "isAcceptedTermsAndConditions": {
+                "is_accepted_terms_and_conditions": {
                     "type": "boolean"
                 },
-                "firstname": {
+                "first_name": {
                     "type": "string"
                 },
                 "surname": {
@@ -95,20 +181,20 @@
                 "sal": {
                     "type": "string"
                 },
-                "registrationCountryId": {
+                "registration_country_id": {
                     "type": "number"
                 },
-                "phoneCountryId": {
+                "phone_country_id": {
                     "type": "integer",
                     "format": "int64"
                 },
-                "phoneNumber": {
+                "phone_number": {
                     "type": "string"
                 },
-                "usTaxIdNumber": {
+                "us_tax_id_number": {
                     "type": "string"
                 },
-                "dateOfBirth": {
+                "date_of_birth": {
                     "type": "string",
                     "format": "date"
                 },
@@ -119,25 +205,25 @@
                         "format": "int64"
                     }
                 },
-                "preferredCurrencies": {
+                "preferred_currencies": {
                     "type": "array",
                     "items": {
                         "type": "string"
                     }
                 },
-                "postCode": {
+                "post_code": {
                     "type": "string"
                 },
-                "addressLine1": {
+                "address_line1": {
                     "type": "string"
                 },
-                "addressLine2": {
+                "address_line2": {
                     "type": "string"
                 },
-                "addressLine3": {
+                "address_line3": {
                     "type": "string"
                 },
-                "countryId": {
+                "country_id": {
                     "type": "integer",
                     "format": "int64"
                 },
@@ -155,6 +241,76 @@
                 }
             },
             "title": "ApiUserCreateResponse"
+        },
+        "ApiUserQueryResponse": {
+            "type": "object",
+            "properties": {
+                "aml_flags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "company": {
+                    "type": "boolean"
+                },
+                "country_name": {
+                    "type": "string"
+                },
+                "created": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd HH:mm:ss"
+                },
+                "customer_code": {
+                    "type": "string"
+                },
+                "display_user_name": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "pending_deposits_count": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "sal": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "sub_user": {
+                    "type": "boolean"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "times_traded": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "ApiUserQueryResponse"
+        },
+        "ChildCustomerResponse": {
+            "type": "object",
+            "properties": {
+                "created": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd HH:mm:ss"
+                },
+                "customer_code": {
+                    "type": "string"
+                },
+                "firstname": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                }
+            },
+            "title": "ChildCustomerResponse"
         }
     }
 }
